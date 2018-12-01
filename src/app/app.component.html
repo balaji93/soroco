@@ -1,0 +1,102 @@
+<!-- /*!
+ * --------------------------------------- START OF LICENSE NOTICE ------------------------------------------------------
+ * Copyright (c) 2018 Software Robotics Corporation Limited ("Soroco"). All rights reserved.
+ *
+ * NO WARRANTY. THE PRODUCT IS PROVIDED BY SOROCO "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+ * SHALL SOROCO BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THE PRODUCT, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+ * DAMAGE.
+ * ---------------------------------------- END OF LICENSE NOTICE -------------------------------------------------------
+ *
+ *   Candidate: Balaji M <balajimannan21@gmail.com>
+ *   Purpose: Soroco Front-end hands on assignment
+
+ PS : PLEASE ENSURE THAT THE SOLUTION PROVIDED IS RESPONSIVE, MODULAR AND SCALABLE
+ */ -->
+
+
+     <!-- main container -->
+     <div class="src-container">
+ 
+       <!-- page header -->
+       <div class="src-header">Soroco</div>
+       <!-- left pane and right pane -->
+       <div class="src-panes">
+         <div class="column-pane left-pane">
+           <h4 class="pane-title">Original information</h4>
+           <div class="tab-container"></div>
+           <div class="tab-details"></div>
+           <div class="pane-lower-action">
+             <button type="button">Reject</button>
+           </div>
+         </div>
+ 
+         <div class="column-pane right-pane">
+           <h4 class="pane-title">Validation data</h4>
+           <!-- All the tab headings are populated here and the current active tab has the class "active" -->
+           <div class="tab-container" id="tab-container">
+              <div class="dynamic-tabs" id="dynamic-tabs">
+                  <div class="src-tab" *ngFor = "let user of states.activeTabsList" 
+                   [ngClass]="{'active': activeTabLogin == user.login}" (click) = "setActiveTab(user)">
+                       <div class="tab-line1">{{user.name}}</div>
+                      <div class="tab-line2">{{user.login}}</div>
+                       <i class="material-icons" (click) = "closeTab(user)">close</i>
+                     </div>
+                     <div class = "src-tab" *ngIf = "states.inactiveTabsList.length > 0" (click) = "toggleDropdown()">
+                        <div id="more-count">{{states.inactiveTabsList.length}} More <span class="caret"></span></div>
+                        <div id="more-list" *ngIf = "showMore">
+                            <div class="more-list-item" *ngFor = "let user of states.inactiveTabsList" (click) = "switchDropdown(user)">
+                            <div class="list-item1">{{user.name}}</div>
+                            <div class="list-item2">{{user.login}}</div>
+                          </div>
+                        </div>
+                      </div>
+               </div>
+             <div class="fixed-tab" id="fixed-tab">
+               <div class="src-tab add-transaction-tab" [ngClass]="{'active': !userTabActive}"
+               (click) = "setActiveTab()">
+                 <div>
+                   <i class="material-icons">add_circle_outline</i> 
+                   <span>Add transaction</span>
+                 </div>
+               </div>
+             </div>
+           </div>
+ 
+           <!-- Place holder for respective tab details that loads when you click on a partticular tab -->
+           <div class="tab-details" *ngIf = "userTabActive">{{getTabDetails()}}</div>
+           <!-- Adding a transaction is the default first tab -->
+           <div class="tab-details" id="add-transaction" *ngIf = "!userTabActive">
+             <div class="">
+               <strong>Create new tab:</strong>
+             </div>
+             <form>
+               <div class="input-group">
+                 <label for="user-name">Employee Name *</label>
+                 <input type="text" id="user-name" name="user-name"
+                  placeholder="Employee name" [(ngModel)] = "newEmpName" required>
+               </div>
+               <div class="input-group">
+                 <label for="user-login">Employee Login *</label>
+                 <input type="text" id="user-login" name="user-login" 
+                 placeholder="Employee login" [(ngModel)] = "newEmpLogin" required>
+               </div>
+ 
+               <button type="submit" (click)="createTab();" class="create-tab-button">Create</button>
+               <div *ngIf = "errorMessage">{{errorMessage}}</div>
+             </form>
+           </div>
+ 
+           <div class="pane-lower-action">
+             <button type="button">Submit</button>
+           </div>
+ 
+         </div>
+       </div>
+ 
+     </div>
+
+
